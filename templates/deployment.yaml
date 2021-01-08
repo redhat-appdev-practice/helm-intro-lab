@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example
+spec:
+  selector:
+    matchLabels:
+      app: hello-openshift
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hello-openshift
+    spec:
+      containers:
+        - name: hello-openshift
+          image: openshift/hello-openshift
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RESPONSE
+              value: {{ $.Values.response }}
+          livenessProbe:
+#The strange spacing is required in order to make sure we indent everything properly
+{{ toYaml $.Values.health.livenessProbe | indent 12}}
+          readinessProbe:
+{{ toYaml $.Values.health.readinessProbe | indent 12}}
+          #Alternatively you could also do:
+          #{{/* toYaml $.Values.health | indent 10 */}}

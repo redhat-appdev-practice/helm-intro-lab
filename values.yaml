@@ -1,0 +1,17 @@
+replicaCount: 6
+
+response: "Hello Helm"
+
+health:
+  readinessProbe:
+    httpGet:
+    path: /healthz
+    port: 8080
+    initialDelaySeconds: 15
+    timeoutSeconds: 1
+  livenessProbe:
+    httpGet:
+    path: /healthz
+    port: 8080
+    initialDelaySeconds: 15
+    timeoutSeconds: 1
